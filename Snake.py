@@ -149,6 +149,41 @@ class SnakeGame:
             pygame.display.flip()
 
             self.clock.tick(self.difficulty)
+        def set_difficulty(self):
+        # Tạo một giao diện đơn giản để chọn độ khó
+            selecting = True
+            while selecting:
+                self.screen.fill(BLACK)
+                prompt_font = pygame.font.SysFont('sa', 40)
+                prompt_text = prompt_font.render("Level", True, WHITE)
+                easy_text = prompt_font.render("1. Hard", True, WHITE)
+                medium_text = prompt_font.render("2. Normal", True, WHITE)
+                hard_text = prompt_font.render("3. Easy", True, WHITE)
+                
+                # Vẽ văn bản
+                self.screen.blit(prompt_text, (SCREEN_WIDTH // 2 - prompt_text.get_width() // 2, 100))
+                self.screen.blit(easy_text, (SCREEN_WIDTH // 2 - easy_text.get_width() // 2, 200))
+                self.screen.blit(medium_text, (SCREEN_WIDTH // 2 - medium_text.get_width() // 2, 250))
+                self.screen.blit(hard_text, (SCREEN_WIDTH // 2 - hard_text.get_width() // 2, 300))
+                
+                for event in pygame.event.get():
+                    if event.type == pygame.QUIT:
+                        pygame.quit()
+                        quit()
+                    if event.type == pygame.MOUSEBUTTONDOWN:
+                        pos = pygame.mouse.get_pos()
+                        if easy_text.get_rect(center=(SCREEN_WIDTH // 2, 200)).collidepoint(pos):
+                            self.difficulty = 50
+                            selecting = False
+                        elif medium_text.get_rect(center=(SCREEN_WIDTH // 2, 250)).collidepoint(pos):
+                            self.difficulty = 30
+                            selecting = False
+                        elif hard_text.get_rect(center=(SCREEN_WIDTH // 2, 300)).collidepoint(pos):
+                            self.difficulty = 10
+                            selecting = False
+
+                pygame.display.flip()
+        
 
 # Run the game
 if __name__ == "__main__":
