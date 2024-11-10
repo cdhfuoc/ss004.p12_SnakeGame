@@ -150,6 +150,9 @@ class SnakeGame:
 
             self.clock.tick(self.difficulty)
 
+    def set_difficulty(self):
+         return 0
+
 # Run the game
 if __name__ == "__main__":
     game = SnakeGame()
