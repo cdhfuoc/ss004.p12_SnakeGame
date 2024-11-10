@@ -118,7 +118,24 @@ class SnakeGame:
             if self.snake_pos == block:
                 pygame.mixer.Sound.play(self.sound)
                 self.check = False
+                
+    def show_game_over_screen(self):
+        over_font = pygame.font.SysFont('sa', 60)
+        game_over_text = over_font.render("Game Over", True, WHITE)
+        score_font = pygame.font.SysFont('sa', 40)
+        score_text = score_font.render("Your Score: " + str(self.score), True, WHITE)
 
+        self.screen.fill(BLACK)
+        self.screen.blit(game_over_text, (SCREEN_WIDTH // 2 - game_over_text.get_width() // 2, SCREEN_HEIGHT // 4))
+        self.screen.blit(score_text, (SCREEN_WIDTH // 2 - score_text.get_width() // 2, SCREEN_HEIGHT // 2))
+
+        pygame.display.flip()
+    
+    # Đợi 2-3 giây trước khi quay về màn hình chính
+        time.sleep(2)
+
+    # Quay lại màn hình chính sau khi game over
+        self.show_start_screen()
 
     def run_game(self):
         while self.running:
