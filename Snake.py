@@ -119,56 +119,6 @@ class SnakeGame:
                 pygame.mixer.Sound.play(self.sound)
                 self.check = False
 
-    
-    def show_game_over_screen(self):
-        over_font = pygame.font.SysFont('sa', 60)
-        game_over_text = over_font.render("Game Over", True, WHITE)
-        score_font = pygame.font.SysFont('sa', 40)
-        score_text = score_font.render("Your Score: " + str(self.score), True, WHITE)
-
-        self.screen.fill(BLACK)
-        self.screen.blit(game_over_text, (SCREEN_WIDTH // 2 - game_over_text.get_width() // 2, SCREEN_HEIGHT // 4))
-        self.screen.blit(score_text, (SCREEN_WIDTH // 2 - score_text.get_width() // 2, SCREEN_HEIGHT // 2))
-
-        pygame.display.flip()
-    
-    # Đợi 2-3 giây trước khi quay về màn hình chính
-        time.sleep(2)
-
-    # Quay lại màn hình chính sau khi game over
-        self.show_start_screen()
-
-    def run_game(self):
-        while self.running:
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    pygame.quit()
-                    quit()
-                if event.type == pygame.KEYDOWN:
-                    self.handle_key_event(event)
-
-            self.update_direction()
-            self.update_snake_position()
-            self.check_food_collision()
-            self.spawn_food()
-            self.check_wall_collision()
-            self.check_self_collision()
-
-            if not self.check:
-                self.show_game_over_screen()
-                self.reset_game()
-
-            self.screen.fill(BLACK)
-            self.show_score()
-            pygame.draw.rect(self.screen, RED, pygame.Rect(self.food_pos[0], self.food_pos[1], 20, 20))
-            for pos in self.snake_body:
-                pygame.draw.rect(self.screen, BLUE, pygame.Rect(pos[0], pos[1], 20, 20))
-
-            pygame.display.flip()
-
-            self.clock.tick(self.difficulty)
-
-
     def show_start_screen(self):
         start_font = pygame.font.SysFont('sa', 40)
         title_font = pygame.font.SysFont('sa', 60)
@@ -230,43 +180,89 @@ class SnakeGame:
 
             pygame.display.flip()
 
-        
-        def set_difficulty(self):
+    def set_difficulty(self):
         # Tạo một giao diện đơn giản để chọn độ khó
-            selecting = True
-            while selecting:
-                self.screen.fill(BLACK)
-                prompt_font = pygame.font.SysFont('sa', 40)
-                prompt_text = prompt_font.render("Level", True, WHITE)
-                easy_text = prompt_font.render("1. Hard", True, WHITE)
-                medium_text = prompt_font.render("2. Normal", True, WHITE)
-                hard_text = prompt_font.render("3. Easy", True, WHITE)
-                
-                # Vẽ văn bản
-                self.screen.blit(prompt_text, (SCREEN_WIDTH // 2 - prompt_text.get_width() // 2, 100))
-                self.screen.blit(easy_text, (SCREEN_WIDTH // 2 - easy_text.get_width() // 2, 200))
-                self.screen.blit(medium_text, (SCREEN_WIDTH // 2 - medium_text.get_width() // 2, 250))
-                self.screen.blit(hard_text, (SCREEN_WIDTH // 2 - hard_text.get_width() // 2, 300))
-                
-                for event in pygame.event.get():
-                    if event.type == pygame.QUIT:
-                        pygame.quit()
-                        quit()
-                    if event.type == pygame.MOUSEBUTTONDOWN:
-                        pos = pygame.mouse.get_pos()
-                        if easy_text.get_rect(center=(SCREEN_WIDTH // 2, 200)).collidepoint(pos):
-                            self.difficulty = 50
-                            selecting = False
-                        elif medium_text.get_rect(center=(SCREEN_WIDTH // 2, 250)).collidepoint(pos):
-                            self.difficulty = 30
-                            selecting = False
-                        elif hard_text.get_rect(center=(SCREEN_WIDTH // 2, 300)).collidepoint(pos):
-                            self.difficulty = 10
-                            selecting = False
+        selecting = True
+        while selecting:
+            self.screen.fill(BLACK)
+            prompt_font = pygame.font.SysFont('sa', 40)
+            prompt_text = prompt_font.render("Level", True, WHITE)
+            easy_text = prompt_font.render("1. Hard", True, WHITE)
+            medium_text = prompt_font.render("2. Normal", True, WHITE)
+            hard_text = prompt_font.render("3. Easy", True, WHITE)
+            
+            # Vẽ văn bản
+            self.screen.blit(prompt_text, (SCREEN_WIDTH // 2 - prompt_text.get_width() // 2, 100))
+            self.screen.blit(easy_text, (SCREEN_WIDTH // 2 - easy_text.get_width() // 2, 200))
+            self.screen.blit(medium_text, (SCREEN_WIDTH // 2 - medium_text.get_width() // 2, 250))
+            self.screen.blit(hard_text, (SCREEN_WIDTH // 2 - hard_text.get_width() // 2, 300))
+            
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    quit()
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    pos = pygame.mouse.get_pos()
+                    if easy_text.get_rect(center=(SCREEN_WIDTH // 2, 200)).collidepoint(pos):
+                        self.difficulty = 50
+                        selecting = False
+                    elif medium_text.get_rect(center=(SCREEN_WIDTH // 2, 250)).collidepoint(pos):
+                        self.difficulty = 30
+                        selecting = False
+                    elif hard_text.get_rect(center=(SCREEN_WIDTH // 2, 300)).collidepoint(pos):
+                        self.difficulty = 10
+                        selecting = False
 
-                pygame.display.flip()
-        
+            pygame.display.flip()
 
+    def show_game_over_screen(self):
+        over_font = pygame.font.SysFont('sa', 60)
+        game_over_text = over_font.render("Game Over", True, WHITE)
+        score_font = pygame.font.SysFont('sa', 40)
+        score_text = score_font.render("Your Score: " + str(self.score), True, WHITE)
+
+        self.screen.fill(BLACK)
+        self.screen.blit(game_over_text, (SCREEN_WIDTH // 2 - game_over_text.get_width() // 2, SCREEN_HEIGHT // 4))
+        self.screen.blit(score_text, (SCREEN_WIDTH // 2 - score_text.get_width() // 2, SCREEN_HEIGHT // 2))
+
+        pygame.display.flip()
+    
+    # Đợi 2-3 giây trước khi quay về màn hình chính
+        time.sleep(2)
+
+    # Quay lại màn hình chính sau khi game over
+        self.show_start_screen()
+
+
+    def run_game(self):
+        while self.running:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    quit()
+                if event.type == pygame.KEYDOWN:
+                    self.handle_key_event(event)
+
+            self.update_direction()
+            self.update_snake_position()
+            self.check_food_collision()
+            self.spawn_food()
+            self.check_wall_collision()
+            self.check_self_collision()
+
+            if not self.check:
+                self.show_game_over_screen()
+                self.reset_game()
+
+            self.screen.fill(BLACK)
+            self.show_score()
+            pygame.draw.rect(self.screen, RED, pygame.Rect(self.food_pos[0], self.food_pos[1], 20, 20))
+            for pos in self.snake_body:
+                pygame.draw.rect(self.screen, BLUE, pygame.Rect(pos[0], pos[1], 20, 20))
+
+            pygame.display.flip()
+
+            self.clock.tick(self.difficulty)
 
 # Run the game
 if __name__ == "__main__":
