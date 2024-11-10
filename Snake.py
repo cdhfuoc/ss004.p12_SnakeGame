@@ -119,6 +119,39 @@ class SnakeGame:
                 pygame.mixer.Sound.play(self.sound)
                 self.check = False
                 
+    
+
+
+    def run_game(self):
+        while self.running:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    quit()
+                if event.type == pygame.KEYDOWN:
+                    self.handle_key_event(event)
+
+            self.update_direction()
+            self.update_snake_position()
+            self.check_food_collision()
+            self.spawn_food()
+            self.check_wall_collision()
+            self.check_self_collision()
+
+            if not self.check:
+                self.show_game_over_screen()
+                self.reset_game()
+
+            self.screen.fill(BLACK)
+            self.show_score()
+            pygame.draw.rect(self.screen, RED, pygame.Rect(self.food_pos[0], self.food_pos[1], 20, 20))
+            for pos in self.snake_body:
+                pygame.draw.rect(self.screen, BLUE, pygame.Rect(pos[0], pos[1], 20, 20))
+
+            pygame.display.flip()
+
+            self.clock.tick(self.difficulty)
+
     def show_start_screen(self):
         start_font = pygame.font.SysFont('sa', 40)
         title_font = pygame.font.SysFont('sa', 60)
@@ -179,37 +212,6 @@ class SnakeGame:
                         self.set_difficulty()
 
             pygame.display.flip()
-
-
-    def run_game(self):
-        while self.running:
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    pygame.quit()
-                    quit()
-                if event.type == pygame.KEYDOWN:
-                    self.handle_key_event(event)
-
-            self.update_direction()
-            self.update_snake_position()
-            self.check_food_collision()
-            self.spawn_food()
-            self.check_wall_collision()
-            self.check_self_collision()
-
-            if not self.check:
-                self.show_game_over_screen()
-                self.reset_game()
-
-            self.screen.fill(BLACK)
-            self.show_score()
-            pygame.draw.rect(self.screen, RED, pygame.Rect(self.food_pos[0], self.food_pos[1], 20, 20))
-            for pos in self.snake_body:
-                pygame.draw.rect(self.screen, BLUE, pygame.Rect(pos[0], pos[1], 20, 20))
-
-            pygame.display.flip()
-
-            self.clock.tick(self.difficulty)
 
 # Run the game
 if __name__ == "__main__":
