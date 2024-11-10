@@ -166,6 +166,67 @@ class SnakeGame:
             pygame.display.flip()
 
             self.clock.tick(self.difficulty)
+def show_start_screen(self):
+        start_font = pygame.font.SysFont('sa', 40)
+        title_font = pygame.font.SysFont('sa', 60)
+        title_text = title_font.render("Snake Game", True, WHITE)
+        start_text = start_font.render("Start", True, WHITE)
+        difficulty_text = start_font.render("Difficulty", True, WHITE)
+
+        # Hiển thị điểm số nếu có (chỉ hiển thị điểm nếu đã thua)
+        if not self.check:
+            score_text = start_font.render(f"Your Last Score: {self.score}", True, WHITE)
+            self.screen.blit(score_text, (SCREEN_WIDTH // 2 - score_text.get_width() // 2, SCREEN_HEIGHT // 1.5))
+
+        # Kích thước và vị trí các nút
+        button_width = 150
+        button_height = 50
+        button_padding = 50
+        total_width = button_width * 2 + button_padding
+        start_x = (SCREEN_WIDTH - total_width) // 2
+        start_y = 300
+
+        start_button = pygame.Rect(start_x, start_y, button_width, button_height)
+        difficulty_button = pygame.Rect(start_x + button_width + button_padding, start_y, button_width, button_height)
+
+        while True:
+            self.screen.fill(BLACK)
+
+            # Hiển thị hình ảnh con rắn nếu có
+            if self.snake_image:
+                snake_rect = self.snake_image.get_rect(center=(SCREEN_WIDTH // 2, 200))
+                self.screen.blit(self.snake_image, snake_rect)
+            else:
+                # Nếu không có hình ảnh, hiển thị một thông báo
+                info_font = pygame.font.SysFont('sa', 30)
+                info_text = info_font.render("Không tìm thấy hình ảnh con rắn!", True, WHITE)
+                self.screen.blit(info_text, (SCREEN_WIDTH // 2 - info_text.get_width() // 2, 150))
+
+            # Hiển thị tiêu đề
+            self.screen.blit(title_text, (SCREEN_WIDTH // 2 - title_text.get_width() // 2, 50))
+
+            # Vẽ các nút
+            pygame.draw.rect(self.screen, BLUE, start_button)
+            pygame.draw.rect(self.screen, BLUE, difficulty_button)
+
+            # Hiển thị văn bản trên các nút
+            self.screen.blit(start_text, (start_button.x + (button_width - start_text.get_width()) // 2,
+                                          start_button.y + (button_height - start_text.get_height()) // 2))
+            self.screen.blit(difficulty_text, (difficulty_button.x + (button_width - difficulty_text.get_width()) // 2,
+                                               difficulty_button.y + (button_height - difficulty_text.get_height()) // 2))
+
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    quit()
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    if start_button.collidepoint(event.pos):
+                        return  # Bắt đầu trò chơi
+                    if difficulty_button.collidepoint(event.pos):
+                        self.set_difficulty()
+
+            pygame.display.flip()
+        
         def set_difficulty(self):
         # Tạo một giao diện đơn giản để chọn độ khó
             selecting = True
