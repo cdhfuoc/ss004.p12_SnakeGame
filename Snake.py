@@ -93,7 +93,19 @@ class SnakeGame:
         if self.direction == "DOWN":
             self.snake_pos[1] += 10
         self.snake_body.insert(0, list(self.snake_pos))
-
+        
+    def check_food_collision(self):
+        if self.snake_pos == self.food_pos:
+            pygame.mixer.Sound.play(self.sound1)
+            self.score += 1
+            self.food_flat = False
+        else:
+            self.snake_body.pop()
+            
+    def spawn_food(self):
+        if not self.food_flat:
+            self.food_pos = self.generate_food_position()
+        self.food_flat = True
 
     def show_start_screen(self):
         start_font = pygame.font.SysFont('sa', 40)
