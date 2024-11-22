@@ -94,30 +94,6 @@ class SnakeGame:
             self.snake_pos[1] += 10
         self.snake_body.insert(0, list(self.snake_pos))
 
-    def check_food_collision(self):
-        if self.snake_pos == self.food_pos:
-            pygame.mixer.Sound.play(self.sound1)
-            self.score += 1
-            self.food_flat = False
-        else:
-            self.snake_body.pop()
-
-    def spawn_food(self):
-        if not self.food_flat:
-            self.food_pos = self.generate_food_position()
-        self.food_flat = True
-
-    def check_wall_collision(self):
-        if (self.snake_pos[0] >= SCREEN_WIDTH or self.snake_pos[0] < 0 or
-                self.snake_pos[1] >= SCREEN_HEIGHT or self.snake_pos[1] < 0):
-            pygame.mixer.Sound.play(self.sound)
-            self.check = False
-
-    def check_self_collision(self):
-        for block in self.snake_body[1:]:
-            if self.snake_pos == block:
-                pygame.mixer.Sound.play(self.sound)
-                self.check = False
 
     def show_start_screen(self):
         start_font = pygame.font.SysFont('sa', 40)
