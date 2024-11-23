@@ -29,7 +29,7 @@ A classic Snake game developed with Python and Pygame, featuring customizable di
    ```bash
    pip install pygame
 3. Add resources: Ensure that duck.wav, chip.wav (for sound effects), and snake.png (for the snake image) are located in the same directory as the game script.
-4. ** Run the game **:
+4. **Run the game**:
    ```bash
    python snake_game.py
 
