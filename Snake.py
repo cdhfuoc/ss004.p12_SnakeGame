@@ -62,27 +62,7 @@ class SnakeGame:
         self.change_to = self.direction
         self.score = 0
         self.check = True
-
-    def handle_key_event(self, event):
-        if event.key == pygame.K_RIGHT:
-            self.change_to = 'RIGHT'
-        if event.key == pygame.K_LEFT:
-            self.change_to = 'LEFT'
-        if event.key == pygame.K_UP:
-            self.change_to = 'UP'
-        if event.key == pygame.K_DOWN:
-            self.change_to = 'DOWN'
-
-    def update_direction(self):
-        if (self.change_to == "LEFT") and not (self.direction == "RIGHT"):
-            self.direction = "LEFT"
-        if (self.change_to == "RIGHT") and not (self.direction == "LEFT"):
-            self.direction = "RIGHT"
-        if (self.change_to == "UP") and not (self.direction == "DOWN"):
-            self.direction = "UP"
-        if (self.change_to == "DOWN") and not (self.direction == "UP"):
-            self.direction = "DOWN"
-
+        
     def update_snake_position(self):
         if self.direction == "RIGHT":
             self.snake_pos[0] += 10
